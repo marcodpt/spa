@@ -1,5 +1,7 @@
 import {nav} from 'https://cdn.jsdelivr.net/gh/marcodpt/views/index.js'
-import {h, app} from "https://unpkg.com/hyperapp"
+import {
+  h, app
+} from 'https://cdn.jsdelivr.net/npm/hyperapp@2.0.18/index.min.js'
 import {
   createNanoEvents
 } from 'https://cdn.jsdelivr.net/npm/nanoevents@6.0.0/index.js'
@@ -8,7 +10,7 @@ export default (e, params) => {
   const emitter = createNanoEvents()
 
   app({
-    init: state.navbar,
+    init: params,
     view: S =>
       h('div', {}, [
         nav(S),
@@ -23,13 +25,25 @@ export default (e, params) => {
     node: e,
     subscriptions: () => [[
       dispatch => {
-        const unbind = emitter.on('update', current => {
+        const getLabel = (items, url) => {
+          var label = ''
+          (items || []).forEach(item => {
+            if (item.href) {
+              if (!label && item.href == url.substr(0, item.href.length)) {
+                label = item.title
+              }
+            }
+            if (!label) {
+              label = getLabel(item.items, url)
+            }
+          })
+          return label
+        }
+
+        const unbind = emitter.on('change', url => {
           requestAnimationFrame(() => dispatch(state => ({
             ...state,
-            model: {
-              ...state.model,
-              ...model
-            }
+            label: getLabel(state.items, url)
           })))
         })
         return () => unbind()
@@ -37,7 +51,7 @@ export default (e, params) => {
     ]]
   })
 
-  return current => {
-    emitter.emit('update', current)
+  return url => {
+    emitter.emit('change', url)
   }
 }

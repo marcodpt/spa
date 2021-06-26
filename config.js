@@ -1,6 +1,6 @@
 export default {
   navbar: {
-    type: 'primary',
+    type: 'dark',
     whiteText: true,
     fixed: 'top',
     expand: 'lg',
@@ -8,60 +8,69 @@ export default {
     home: '#',
     items: [
       {
-        icon: 'tools',
-        title: 'Ferramentas',
-        access: ['master'],
+        icon: 'paw',
+        title: 'Animals',
         items: [
           {
-            icon: 'project-diagram',
-            title: 'Fluxograma Cliente',
-            href: '#/graph/db'
+            icon: 'hippo',
+            title: 'Hippo',
+            href: '#/animals/hippo'
           }, {
-            icon: 'database',
-            title: 'Fluxograma do Sistema',
-            href: '#/graph/core'
+            icon: 'dog',
+            title: 'Dog',
+            href: '#/animals/dog'
           }, {
-            icon: 'file',
-            title: 'Exemplo de Gráfico',
-            href: '#/chart/tables'
+            icon: 'horse',
+            title: 'Horse',
+            href: '#/animals/horse'
           }, {
-            icon: 'file',
-            title: 'Importar Arquivos',
-            href: '#/upload/files'
+            icon: 'fish',
+            title: 'Fish',
+            href: '#/animals/fish'
+          }, {
+            icon: 'cat',
+            title: 'Cat',
+            href: '#/animals/cat'
           }
         ]
-      },
-      "gets/tables",
-      "id/users",
-      "login/users",
-      "logout/users"
+      }, {
+        icon: 'dumbbell',
+        title: 'Sports',
+        items: [
+          {
+            icon: 'volleyball-ball',
+            title: 'Volleyball',
+            href: '#/sports/volleyball'
+          }, {
+            icon: 'running',
+            title: 'Running',
+            href: '#/sports/running'
+          }, {
+            icon: 'futbol',
+            title: 'Futbal',
+            href: '#/sports/futbol'
+          }, {
+            icon: 'basketball-ball',
+            title: 'Basketball',
+            href: '#/sports/basketball'
+          }, {
+            icon: 'swimmer',
+            title: 'Swim',
+            href: '#/sports/swim'
+          }, {
+            icon: 'biking',
+            title: 'Cycling',
+            href: '#/sports/cycling'
+          }
+        ]
+      }
     ]
   },
   routes: [
     {
-      route: '/api/:service/:table/:id',
+      route: '/:group/:item',
       navbar: true,
-      module: './schema.js'
-    }, {
-      route: '/api/:service/:table',
-      navbar: true,
-      module: './schema.js'
-    }, {
-      route: '/:name',
-      navbar: true,
-      module: './raw.js'
-    }, {
-      route: '/upload/files',
-      navbar: true,
-      module: './file2.js'
-    }, {
-      route: '/graph/:id',
-      navbar: true,
-      module: './graph2.js'
-    }, {
-      route: '/chart/:id',
-      navbar: true,
-      module: './chart2.js'
+      module: './view.js'
     }
   ]
 }
