@@ -4,6 +4,9 @@ import navbar from './navbar.js'
 
 export default (e, params) => {
   const main = e.innerHTML
+}
+
+export default (e, params) => {
   const nav = document.createElement('div')
   const app = document.createElement('div')
   const Modules = {}
