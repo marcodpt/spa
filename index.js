@@ -1,8 +1,7 @@
-import {router} from 'https://cdn.jsdelivr.net/gh/marcodpt/router/index.js'
-import {query} from 'https://cdn.jsdelivr.net/gh/marcodpt/query/index.js'
-import {
-  component
-} from 'https://cdn.jsdelivr.net/gh/marcodpt/component/index.js'
+import router from 'https://cdn.jsdelivr.net/gh/marcodpt/router@0.0.1/index.js'
+import query from 'https://cdn.jsdelivr.net/gh/marcodpt/query@0.0.2/index.js'
+import component from 
+  'https://cdn.jsdelivr.net/gh/marcodpt/component@0.0.1/index.js'
 import loading from './views/bootstrap5.js'
 
 export default (e, params) => {

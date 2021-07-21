@@ -1,6 +1,5 @@
-import {
-  component
-} from 'https://cdn.jsdelivr.net/gh/marcodpt/component/index.js'
+import component from 
+  'https://cdn.jsdelivr.net/gh/marcodpt/component@0.0.1/index.js'
 
 const view = (e, params) => {
   return component(e, (h, text) => ({group, item, query}) => 
