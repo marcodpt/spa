@@ -21,7 +21,7 @@ export default (e, params) => {
 
   params.routes.forEach(route => {
     if (route.mount == null) {
-      route.mount = (params) => params
+      route.mount = params => params
     }
     if (route.update == null) {
       route.update = (updater, query) => updater(query)
@@ -30,10 +30,12 @@ export default (e, params) => {
       if (Route.path != ctx.path) {
         Route.path = ctx.path
         Route.update = null
-        component(getEl(), loading)
+        const f = component(getEl(), loading, {}, (state, data) => ({
+          ...data
+        }))
 
         Promise.resolve().then(() => {
-          return route.mount(ctx.params)
+          return route.mount(ctx.params, f)
         }).then(params => {
           if (Route.path == ctx.path) {
             const u = route.comp(getEl(), params)

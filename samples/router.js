@@ -1,4 +1,4 @@
-import component from 
+import component from
   'https://cdn.jsdelivr.net/gh/marcodpt/component@0.0.1/index.js'
 
 const view = (e, params) => {
@@ -36,7 +36,9 @@ const view = (e, params) => {
 
 export default {
   view: `
-    <h1>Hello Router!</h1>
+    <div class="container">
+      <p class="lead">Choose one of the available routes!</p>
+    </div>
   `,
   routes: [
     {
@@ -59,6 +61,36 @@ export default {
         updater({
           ...query,
           pi: 3.14
+        })
+      }
+    }, {
+      route: '',
+      comp: view,
+      mount: (params, update) => {
+        update({
+          width: '0%',
+          label: '0 of 10'
+        })
+        var n = 0
+        return new Promise(resolve => {
+          const wait = () => {
+            if (n > 10) {
+              resolve({
+                group: 'launch',
+                item: 'rocket'
+              })
+            } else {
+              setTimeout(() => {
+                n += 1
+                update({
+                  width: `${n*10}%`,
+                  label: `${n} of 10`
+                })
+                wait()
+              }, 1000)
+            }
+          }
+          wait()
         })
       }
     }

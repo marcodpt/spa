@@ -15,6 +15,6 @@ export default {
     girl: '/girl',
     cuteGirl: '/girl?cute=true',
     dog: '/dog',
-    pluto: '/dog?name=pluto',
+    pluto: '/dog?name=pluto'
   }
 }
