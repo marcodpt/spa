@@ -1,61 +1,68 @@
-import router from 'https://cdn.jsdelivr.net/gh/marcodpt/router@0.0.1/index.js'
-import query from 'https://cdn.jsdelivr.net/gh/marcodpt/query@0.0.2/index.js'
-import component from 
-  'https://cdn.jsdelivr.net/gh/marcodpt/component@0.0.1/index.js'
-import loading from './views/bootstrap5.js'
+import {router, q} from './dependencies.js'
+import view from './views/bootstrap5.js'
 
-export default (e, params) => {
-  const node = e.cloneNode(false)
+export default (({
+  url = '',
+  routes,
+  update,
+  root = 'div',
+  ...config
+}) => {
+  const e = document.createElement(root)
   const Route = {}
-  const getEl = () => {
-    const el = node.cloneNode(false)
-    e.replaceWith(el)
-    e = el
-    return e
+  const updater = callback => {
+    Route.update = qry => callback(q(qry))
   }
-  const home = () => {
-    Route.path = null
-    Route.update = null
-    getEl().innerHTML = params.view
+  const render = child => {
+    if (typeof child == "object") {
+      e.innerHTML = ''
+      e.appendChild(child)
+    } else if (typeof child == "string") {
+      e.innerHTML = child
+    }
   }
 
-  params.routes.forEach(route => {
-    if (route.mount == null) {
-      route.mount = params => params
-    }
-    if (route.update == null) {
-      route.update = (updater, query) => updater(query)
-    }
-    router(route.route, ctx => {
-      if (Route.path != ctx.path) {
-        Route.path = ctx.path
-        Route.update = null
-        const f = component(getEl(), loading, {}, (state, data) => ({
-          ...data
-        }))
+  routes.forEach(({
+    path,
+    element,
+    mount
+  }) => {
+    router(path, ({
+      path,
+      params,
+      query
+    }) => {
+      if (Route.path != path) {
+        Route.path = path
+        Route.update = () => {}
 
-        Promise.resolve().then(() => {
-          return route.mount(ctx.params, f)
-        }).then(params => {
-          if (Route.path == ctx.path) {
-            const u = route.comp(getEl(), params)
-            if (u) {
-              setTimeout(() => {
-                Route.update = (ctx) => {
-                  route.update(u, query(ctx.query))
-                }
-                Route.update(ctx)
-              }, 50)
-            }
-          }
-        })
-      } else if (Route.update) {
-        Route.update(ctx)
+        if (!mount) {
+          render(element({
+            ...params,
+            update: updater
+          }))
+          Route.update(query)
+        } else {
+          render(view(config))
+
+          Promise.resolve()
+            .then(() => mount(params))
+            .then(params => {
+              render(element({
+                ...params,
+                update: updater
+              }))
+              Route.update(query)
+            })
+        }
+      } else {
+        Route.update(query)
       }
     })
   })
-  router('*', home)
-  home()
+  
+  router(url)
+  update(url => {router(url)})
 
-  return url => router(url)
-}
+  return e
+})
