@@ -4,7 +4,7 @@
 [micro frontend](https://martinfowler.com/articles/micro-frontends.html)
 element based on [router](https://github.com/marcodpt/router)
 
-[Live demo](https://marcodpt.github.io/h/?url=https%3A%2F%2Fcdn.jsdelivr.net%2Fgh%2Fmarcodpt%2Fspa%2Fsample.js)
+[Live demo](https://marcodpt.github.io/h/?url=https%3A%2F%2Fcdn.jsdelivr.net%2Fgh%2Fmarcodpt%2Fspa%2Fsamples.js)
 
 ## Usage
 ```js
