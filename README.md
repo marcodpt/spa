@@ -2,11 +2,9 @@
 > A
 [spa](https://en.wikipedia.org/wiki/Single-page_application)
 [micro frontend](https://martinfowler.com/articles/micro-frontends.html)
-[element](https://github.com/marcodpt/element/)
-based on 
-[router](https://github.com/marcodpt/router)
+element based on [router](https://github.com/marcodpt/router)
 
-[Live demo](https://marcodpt.github.io/element/?url=https%3A%2F%2Fcdn.jsdelivr.net%2Fgh%2Fmarcodpt%2Fspa%2Fsample.js)
+[Live demo](https://marcodpt.github.io/h/?url=https%3A%2F%2Fcdn.jsdelivr.net%2Fgh%2Fmarcodpt%2Fspa%2Fsample.js)
 
 ## Usage
 ```js
@@ -39,8 +37,7 @@ document.body = spa({
  - string `color`: one of the bootstrap5 text colors ex: primary (default: '')
  - array `routes`: array of object with the possible routes, properties:
    - string `path`: an url with optional variables. ex: user/:id
-   - function `element(params)`: an
-[element](https://github.com/marcodpt/element/)
+   - function `element(params)`: returns `DOM` node or `HTML` string
    - function `mount(params)`: an optional function that recieve the
 `route` variables and returns a new version of params to be passed to `element`
 function. If you don't pass `mount` function, it will mount element with the
