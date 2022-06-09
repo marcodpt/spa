@@ -46,7 +46,11 @@ export default (({
           render(ui(config))
 
           Promise.resolve()
-            .then(() => mount(params))
+            .then(() => mount({
+              update: updater,
+              query: query,
+              ...params
+            }))
             .then(params => {
               render(element({
                 update: updater,
