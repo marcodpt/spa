@@ -1,5 +1,5 @@
 import {router, q} from './dependencies.js'
-import view from './views/bootstrap5.js'
+import ui from './views/bootstrap5.js'
 
 export default (({
   url = '',
@@ -32,31 +32,41 @@ export default (({
       params,
       query
     }) => {
-      if (Route.path != path) {
-        Route.path = path
-        Route.update = () => {}
-
+      const rerender = () => {
         if (!mount) {
           render(element({
+            update: updater,
+            query: query,
             ...params,
-            update: updater
           }))
-          Route.update(query)
+          if (typeof Route.update == "function") {
+            Route.update(query)
+          }
         } else {
-          render(view(config))
+          render(ui(config))
 
           Promise.resolve()
             .then(() => mount(params))
             .then(params => {
               render(element({
-                ...params,
-                update: updater
+                update: updater,
+                query: query,
+                ...params
               }))
-              Route.update(query)
+              if (typeof Route.update == "function") {
+                Route.update(query)
+              }
             })
         }
-      } else {
+      }
+
+      if (Route.path != path) {
+        Route.path = path
+        rerender()
+      } else if (typeof Route.update == "function") {
         Route.update(query)
+      } else {
+        rerender()
       }
     })
   })
