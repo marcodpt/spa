@@ -14,8 +14,8 @@ export default (({
     Route.update = qry => callback(q(qry))
   }
   const render = child => {
-    if (typeof child == "object") {
-      e.innerHTML = ''
+    e.innerHTML = ''
+    if (typeof child == "object" && child != null) {
       e.appendChild(child)
     } else if (typeof child == "string") {
       e.innerHTML = child
