@@ -24,8 +24,7 @@ export default (({
 
   routes.forEach(({
     path,
-    element,
-    mount
+    view
   }) => {
     router(path, ({
       path,
@@ -33,35 +32,19 @@ export default (({
       query
     }) => {
       const rerender = () => {
-        if (!mount) {
-          render(element({
-            update: updater,
-            query: query,
-            ...params,
-          }))
-          if (typeof Route.update == "function") {
-            Route.update(query)
-          }
-        } else {
-          render(ui(config))
+        render(ui(config))
 
-          Promise.resolve()
-            .then(() => mount({
-              update: updater,
-              query: query,
-              ...params
-            }))
-            .then(params => {
-              render(element({
-                update: updater,
-                query: query,
-                ...params
-              }))
-              if (typeof Route.update == "function") {
-                Route.update(query)
-              }
-            })
-        }
+        Promise.resolve()
+          .then(() => view(params, {
+            update: updater,
+            query: query
+          }))
+          .then(el => {
+            render(el)
+            if (typeof Route.update == "function") {
+              Route.update(query)
+            }
+          })
       }
 
       if (Route.path != path) {

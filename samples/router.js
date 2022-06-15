@@ -46,9 +46,8 @@ const nav = () => html(({
 
 const view = ({
   group,
-  item,
-  update
-}) => html(({
+  item
+}, {update}) => html(({
   div, h5, p, img
 }) => {
   const e = div({
@@ -105,21 +104,20 @@ export default {
   routes: [
     {
       path: '/:group/:item',
-      element: view
+      view: view
     }, {
       path: '/:img',
-      element: view,
-      mount: ({img}) => new Promise(resolve => {
+      view: ({img}, extra) => new Promise(resolve => {
         setTimeout(() => {
-          resolve({
+          resolve(view({
             group: 'lazy',
             item: img
-          })
+          }, extra))
         }, 3000)
       })
     }, {
       path: '*',
-      element: () => html(({
+      view: () => html(({
         p, div
       }) => div({
         class: 'container'

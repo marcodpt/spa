@@ -16,10 +16,10 @@ document.body = spa({
   routes: [
     {
       path: '/hi/:name',
-      element: ({name}) => `<h1>Hello ${name}</h1>`
+      view: ({name}) => `<h1>Hello ${name}</h1>`
     }, {
       path: '*',
-      element: () => `<button onclick="updateRoute('/hi/John')">Say hi!</button>`
+      view: () => `<button onclick="updateRoute('/hi/John')">Say hi!</button>`
     }
   ],
   update: callback => {window.updateRoute = callback}
@@ -37,8 +37,11 @@ document.body = spa({
  - string `color`: one of the bootstrap5 text colors ex: primary (default: '')
  - array `routes`: array of object with the possible routes, properties:
    - string `path`: an url with optional variables. ex: user/:id
-   - function `element(params)`: returns `DOM` node or `HTML` string
-   - function `mount(params)`: an optional function that recieve the
-`route` variables and returns a new version of params to be passed to `element`
-function. If you don't pass `mount` function, it will mount element with the
-`route` variables. 
+   - function `view(params, extra)`: returns `DOM` node or `HTML` string or a
+     promise for that.
+     - object `params`: `path` declared variables
+     - object `extra`:
+       - string `query`: associate query string
+       - function `update(listener(query))`: register an listener function in
+         case query string change, if no listener is registered query string
+         changes will refresh the route
